@@ -7,7 +7,8 @@ To use this demo use this credentials:
 email: janedoe@test.com
 p: Dia$admin.
 
-Live Deploy: [Demo](https://dia-ecommerce-pannel.vercel.app/208a7cdf-3bc8-4c1c-af17-543d7af8935d)
+Live Deploy: [Demo](https://dia-ecommerce-pannel.vercel.app)
+Store Demo: [Store](https://dia-store-website.vercel.app)
 ## Screenshots
 
 ![image](https://github.com/devgnox/dia-ecommerce-pannel/assets/34384738/76c26314-fcb3-41a6-8ee8-f0caa0c8b292)
