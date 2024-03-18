@@ -2,6 +2,11 @@
 
 This is a Full Stack Dashboard I made.
 
+To use this demo use this credentials: 
+
+email: janedoe@test.com
+p: Dia$admin.
+
 Live Deploy: [Demo](https://dia-ecommerce-pannel.vercel.app/208a7cdf-3bc8-4c1c-af17-543d7af8935d)
 ## Screenshots
 
