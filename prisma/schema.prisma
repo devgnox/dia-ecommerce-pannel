@@ -37,6 +37,7 @@ model Billboard{
   label String
   imageUrl String
   textColor String @default("#ffffff")
+  isPrimaryBillboard Boolean @default(false)
   categories Category[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

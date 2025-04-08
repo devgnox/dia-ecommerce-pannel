@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs";
 import prismadb from "./prismadb";
-import { Image, OrderItem } from "@prisma/client";
+import { Billboard, Image, OrderItem } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 //STORE - GET
@@ -56,10 +56,13 @@ export const GetStoresCountByUserID = async (userId: string) => {
 //STORE - POST
 export const CreateStore = async (name: string, userId: string) => {
   //check if user has other stores; TODO:set up permision depending on tier
-  const userStores = await prismadb.store.findMany({where:{ userId}});
-  
-  if(userStores.length>0) throw new Error('Max store count, you can only create one Store in a single account');
-  
+  const userStores = await prismadb.store.findMany({ where: { userId } });
+
+  if (userStores.length > 0)
+    throw new Error(
+      "Max store count, you can only create one Store in a single account"
+    );
+
   const store = await prismadb.store.create({ data: { name, userId } });
 
   return store;
@@ -141,12 +144,32 @@ export const CreateBillboard = async (
 //BILLBOARDS - PATCH
 export const UpdateBillboard = async (
   billboardId: string,
-  data: { label: string; imageUrl: string; textColor: string }
+  data: {
+    label: string;
+    imageUrl: string;
+    textColor: string;
+    isPrimaryBillboard: boolean;
+  }
 ) => {
   const billboard = await prismadb.billboard.updateMany({
     where: { id: billboardId },
     data: data,
   });
+
+  if (data.isPrimaryBillboard == true) {
+    let billboardTemp = billboard as unknown as Billboard;
+    const updatedRecords = await prismadb.billboard.updateMany({
+      where: {
+        storeId: billboardTemp?.storeId,
+        id: { not: billboardId },
+      },
+      data: {
+        isPrimaryBillboard: false,
+      },
+    });
+
+    return updatedRecords;
+  }
 
   return billboard;
 };

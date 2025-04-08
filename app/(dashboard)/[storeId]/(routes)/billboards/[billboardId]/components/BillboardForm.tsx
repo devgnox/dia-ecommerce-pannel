@@ -25,6 +25,7 @@ import { useParams, useRouter } from "next/navigation";
 import AlertModal from "@/components/modals/AlertModal";
 import useOrigin from "@/hooks/useOrigin";
 import ImageUpload from "@/components/ui/image-upload";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
   label: z.string().min(2),
@@ -33,6 +34,7 @@ const formSchema = z.object({
     .string()
     .min(3)
     .regex(/^#/, { message: "String must be a valid hex code" }),
+  isPrimaryBillboard: z.boolean().default(false),
 });
 
 type BillboardFormValues = z.infer<typeof formSchema>;
@@ -56,7 +58,12 @@ const BillboardForm: React.FC<IBillboardFormProps> = ({ initialData }) => {
 
   const form = useForm<BillboardFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || { label: "", imageUrl: "", textColor: "" },
+    defaultValues: initialData || {
+      label: "",
+      imageUrl: "",
+      textColor: "",
+      isPrimaryBillboard: false,
+    },
   });
 
   const onSubmit = async (data: BillboardFormValues) => {
@@ -71,8 +78,8 @@ const BillboardForm: React.FC<IBillboardFormProps> = ({ initialData }) => {
         await axios.post(`/api/${params.storeId}/billboards`, data);
       }
 
-      router.refresh();
       router.push(`/${params.storeId}/billboards`);
+      router.refresh();
 
       toast.success(toastMessage);
     } catch (error) {
@@ -145,7 +152,7 @@ const BillboardForm: React.FC<IBillboardFormProps> = ({ initialData }) => {
               </FormItem>
             )}
           />
-          <div className="grid grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-8">
             <FormField
               control={form.control}
               name="label"
@@ -196,6 +203,29 @@ const BillboardForm: React.FC<IBillboardFormProps> = ({ initialData }) => {
                       )
                     </span>
                   </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isPrimaryBillboard"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      //@ts-ignore
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-2 leading-none">
+                    <FormLabel>Main Billboard?</FormLabel>
+                    <FormDescription>
+                      This would be your main billboard for your store. You can
+                      change it later on.
+                    </FormDescription>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}

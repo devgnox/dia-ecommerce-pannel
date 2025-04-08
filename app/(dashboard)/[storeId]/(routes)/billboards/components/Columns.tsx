@@ -2,12 +2,14 @@ import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import CellAction from "./CellAction";
 import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 
 export type BillboardColumn = {
   id: string;
   label: string;
   image: string;
   textColor: string;
+  isPrimaryBillboard: boolean;
   createdAt: string;
 };
 
@@ -53,7 +55,19 @@ export const Columns: ColumnDef<BillboardColumn>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />,
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2">
+        {row.original.isPrimaryBillboard === true && (
+          <Badge
+            className="font-semibold text-gray-600 dark:text-gray-400  justify-center text-sm rounded-xl"
+            variant={"outline"}
+          >
+            Main Billboard
+          </Badge>
+        )}{" "}
+        <CellAction data={row.original} />
+      </div>
+    ),
   },
 ];
 

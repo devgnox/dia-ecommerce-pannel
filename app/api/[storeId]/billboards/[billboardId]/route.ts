@@ -33,7 +33,7 @@ export const PATCH = async (
     const userId = await CheckUserSession();
     const body = await req.json();
 
-    const { label, imageUrl, textColor } = body;
+    const { label, imageUrl, textColor, isPrimaryBillboard } = body;
 
     if (!userId) return new NextResponse("Unauthenticathed", { status: 401 });
     if (!label) return new NextResponse("Label is Required", { status: 400 });
@@ -50,6 +50,7 @@ export const PATCH = async (
       label,
       imageUrl,
       textColor,
+      isPrimaryBillboard,
     });
 
     return NextResponse.json(billboard);

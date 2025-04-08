@@ -12,6 +12,7 @@ const BillboardsPage = async ({ params }: { params: { storeId: string } }) => {
     label: item.label,
     image: item.imageUrl,
     textColor: item.textColor,
+    isPrimaryBillboard: item.isPrimaryBillboard,
     createdAt: format(item.createdAt, "MMMM do, yyyy"),
   }));
 
