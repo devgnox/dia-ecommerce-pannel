@@ -56,9 +56,9 @@ export const GetStoresCountByUserID = async (userId: string) => {
 //STORE - POST
 export const CreateStore = async (name: string, userId: string) => {
   //check if user has other stores; TODO:set up permision depending on tier
-  const userStores = await prismadb.store.findFirst({where:{ userId}});
+  const userStores = await prismadb.store.findMany({where:{ userId}});
   
-  if(userStores) throw new Error('Max store count, you can only create one Store in a single account');
+  if(userStores.length>0) throw new Error('Max store count, you can only create one Store in a single account');
   
   const store = await prismadb.store.create({ data: { name, userId } });
 
