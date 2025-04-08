@@ -13,7 +13,7 @@ const layout = async ({
   const userId = await CheckUserSession();
   if (!userId) redirect("/sign-in");
 
-  const store = await GetStoreByStoreID(params.storeId, userId);
+  const store = await GetStoreByStoreID(params?.storeId, userId);
   if (!store) redirect("/");
 
   return (
