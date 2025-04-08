@@ -1,4 +1,3 @@
-import prismadb from "@/lib/prismadb";
 import {
   CreateBillboard,
   GetAllBillboardsByStoreID,

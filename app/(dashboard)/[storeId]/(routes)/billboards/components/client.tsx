@@ -35,7 +35,11 @@ const BillboardsClient: React.FC<IBillboardClientProps> = ({ data }) => {
       <DataTable columns={Columns} data={data} searchKey="label" />
       <Heading title="API" description="API calls for Billboards" />
       <Separator />
-      <ApiList entityName="billboards" entityIdName="billboardId" />
+      <ApiList
+        entityName="billboards"
+        entityIdName="billboardId"
+        customEntityField={{ variant: "public", entityName: "main" }}
+      />
     </>
   );
 };

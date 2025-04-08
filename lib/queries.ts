@@ -127,6 +127,15 @@ export const GetBillboardsByStoreID = async (storeId: string) => {
   return billboards;
 };
 
+export const GetMainBillboardByStoreID = async (storeId: string) => {
+  const billboard = await prismadb.billboard.findFirst({
+    where: { storeId, isPrimaryBillboard: true },
+  });
+  if (!billboard) return false;
+
+  return billboard;
+};
+
 //BILLBOARDS - POST
 export const CreateBillboard = async (
   label: string,

@@ -7,9 +7,18 @@ import ApiAlert from "@/components/ui/apiAlert";
 interface IApiList {
   entityName: string;
   entityIdName: string;
+  customEntityField?: {
+    title?: string;
+    entityName: string;
+    variant: "public" | "admin";
+  };
 }
 
-const ApiList: React.FC<IApiList> = ({ entityIdName, entityName }) => {
+const ApiList: React.FC<IApiList> = ({
+  entityIdName,
+  entityName,
+  customEntityField,
+}) => {
   const origin = useOrigin();
   const params = useParams();
 
@@ -18,7 +27,7 @@ const ApiList: React.FC<IApiList> = ({ entityIdName, entityName }) => {
   return (
     <>
       <ApiAlert
-        title="GET"
+        title="GET ALL"
         variant="public"
         description={`${baseUrl}/${entityName}`}
       />
@@ -27,6 +36,13 @@ const ApiList: React.FC<IApiList> = ({ entityIdName, entityName }) => {
         variant="public"
         description={`${baseUrl}/${entityName}/{${entityIdName}}`}
       />
+      {customEntityField && (
+        <ApiAlert
+          title={customEntityField.title || "GET MAIN"}
+          variant={customEntityField.variant}
+          description={`${baseUrl}/${entityName}/${customEntityField.entityName}`}
+        />
+      )}
       <ApiAlert
         title="POST"
         variant="admin"
